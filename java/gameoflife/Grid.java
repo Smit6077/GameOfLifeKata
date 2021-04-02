@@ -6,6 +6,10 @@ public class Grid {
     private Cell[][] cells;
     private int sizeGrid;
     private Random rd;
+    //public int livingNeighbours;
+    private int i;
+    private int j;
+    private int resteVivant;
 
     public Grid(int sizeGrid) {
         this.rd = new Random();
@@ -19,15 +23,287 @@ public class Grid {
     }
 
     private void generateRandomInitialState() {
-        // TODO
+        for (i = 0; i < sizeGrid; ++i) {
+            for (j = 0; j < sizeGrid; ++j) {
+                cells[i][j] = new Cell();
+                if (rd.nextDouble() < 0.5) {
+                    cells[i][j].setIsAlive(false);
+                } else {
+                    cells[i][j].setIsAlive(true);
+                }
+            }
+        }
     }
 
     public void generateNextState() {
-        // TODO
+        int livingNeighbours = 0;
+        for(i=0;i<sizeGrid;i++){
+            livingNeighbours = 0;
+            for(j=0;j<sizeGrid;j++){
+
+                //Verification de la case en haut a gauche
+                if(i==0 && j==0){
+                    if(verifVoisinDroit(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagDB(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinBas(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    voisinVivant(i, j, livingNeighbours);
+                }
+
+                //Verification des cases au milieu de la premiere ligne
+                if(i==0 && j>0 && j < sizeGrid-1){
+                    if(verifVoisinDroit(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagDB(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinBas(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinGauche(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagGB(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    voisinVivant(i, j, livingNeighbours);
+                }
+
+                //Verification de la case en haut a droite
+                if(i==0 && j==sizeGrid-1 ){
+                    if(verifVoisinBas(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinGauche(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagGB(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    voisinVivant(i, j, livingNeighbours);
+                }
+
+                //Verification de la case en bas a droite
+                if(i==sizeGrid-1 && j==sizeGrid-1 ){
+                    if(verifVoisinHaut(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinGauche(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagGH(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    voisinVivant(i, j, livingNeighbours);
+                }
+
+                //Verification de la case en bas a gauche
+                if(i==sizeGrid-1 && j==0){
+                    if(verifVoisinDroit(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagDH(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinHaut(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    voisinVivant(i, j, livingNeighbours);
+                }
+
+                //Verification des cases au milieu derniere ligne
+                if(i==sizeGrid-1 && j>0 && j<sizeGrid-1){
+                    if(verifVoisinDroit(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinGauche(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagDH(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagGH(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinHaut(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    voisinVivant(i, j, livingNeighbours);
+                }
+
+                //Verification des cases au milieu
+                if(i > 0 && i < sizeGrid-1 && j > 0 && j < sizeGrid-1) {
+                    if(verifVoisinDroit(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinHaut(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagDB(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinBas(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinGauche(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagGB(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagDH(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagGH(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    voisinVivant(i, j, livingNeighbours);
+                }
+
+                //Verification des cases au milieu de la derniere colonne
+                if(i > 0 && j == sizeGrid-1 && i < sizeGrid-1) {
+                    if(verifVoisinHaut(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinBas(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinGauche(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagGH(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagGB(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    voisinVivant(i, j, livingNeighbours);
+                }
+
+                //Verification des cases au milieu de la premiere colonne
+                if(i > 0 && j == 0 && i < sizeGrid-1) {
+                    if(verifVoisinHaut(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinBas(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDroit(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagDB(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    if(verifVoisinDiagDH(i,j)){
+                        livingNeighbours = livingNeighbours +1;
+                    }
+                    voisinVivant(i, j, livingNeighbours);
+                }
+            }
+        }
+    }
+
+    public boolean verifVoisinDroit(int i, int j){
+        if(this.cells[i][j+1].toString().compareToIgnoreCase("X") == 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean verifVoisinGauche(int i, int j){
+        if(this.cells[i][j-1].toString().compareToIgnoreCase("X") == 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean verifVoisinHaut(int i, int j){
+        if(this.cells[i-1][j].toString().compareToIgnoreCase("X") == 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean verifVoisinBas(int i, int j){
+        if(this.cells[i+1][j].toString().compareToIgnoreCase("X") == 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public boolean verifVoisinDiagGH(int i, int j){
+        if(this.cells[i-1][j-1].toString().compareToIgnoreCase("X") == 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean verifVoisinDiagDH(int i, int j){
+        if(this.cells[i-1][j+1].toString().compareToIgnoreCase("X") == 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean verifVoisinDiagGB(int i, int j){
+        if(this.cells[i+1][j-1].toString().compareToIgnoreCase("X") == 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean verifVoisinDiagDB(int i, int j){
+        if(this.cells[i+1][j+1].toString().compareToIgnoreCase("X") == 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void voisinVivant(int i, int j, int livingNeighbours) {
+        if (cells[i][j].isAlive() == true) {
+            if (livingNeighbours == 2 || livingNeighbours == 3) {
+                cells[i][j].setIsAlive(true);
+            } else {
+                cells[i][j].setIsAlive(false);
+            }
+        } else {
+            if (livingNeighbours == 3) {
+                cells[i][j].setIsAlive(true);
+            } else {
+                cells[i][j].setIsAlive(false);
+            }
+        }
     }
 
     public String toString() {
-        // TODO
-        return "";
+        String tab = "";
+        for(i=0;i<3;i++){
+            for(j=0;j<3;j++){
+                tab += this.cells[i][j];
+                if(j!=2){
+                    tab += " ";
+                }
+            }
+            if(i!=2){
+                tab += "\n";
+            }
+        }
+        return tab;
     }
 }
+
