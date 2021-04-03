@@ -38,9 +38,8 @@ public class Grid {
     public void generateNextState() {
         int livingNeighbours = 0;
         for(i=0;i<sizeGrid;i++){
-            livingNeighbours = 0;
             for(j=0;j<sizeGrid;j++){
-
+                livingNeighbours = 0;
                 //Verification de la case en haut a gauche
                 if(i==0 && j==0){
                     if(verifVoisinDroit(i,j)){
@@ -306,4 +305,3 @@ public class Grid {
         return tab;
     }
 }
-
