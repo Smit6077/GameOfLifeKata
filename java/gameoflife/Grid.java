@@ -3,6 +3,7 @@ package gameoflife;
 import java.util.Random;
 
 public class Grid {
+    // Nous avons eu l'aide de Florian LEFEVRE
     private Cell[][] cells;
     private int sizeGrid;
     private Random rd;
