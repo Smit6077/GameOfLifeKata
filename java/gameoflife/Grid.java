@@ -7,10 +7,9 @@ public class Grid {
     private Cell[][] cells;
     private int sizeGrid;
     private Random rd;
-    //public int livingNeighbours;
+    private int livingNeighbours;
     private int i;
     private int j;
-    private int resteVivant;
 
     public Grid(int sizeGrid) {
         this.rd = new Random();
@@ -37,7 +36,7 @@ public class Grid {
     }
 
     public void generateNextState() {
-        int livingNeighbours = 0;
+
         for(i=0;i<sizeGrid;i++){
             for(j=0;j<sizeGrid;j++){
                 livingNeighbours = 0;
