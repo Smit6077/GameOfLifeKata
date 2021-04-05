@@ -18,9 +18,21 @@ public class Grid {
         generateRandomInitialState();
     }
 
-    Grid(int sizeGrid, Cell[][] cells) {
+    public Grid(int sizeGrid, Cell[][] cells) {
         this.sizeGrid = sizeGrid;
         this.cells = cells;
+        this.game = initGrid();
+
+    }
+
+    private Cell[][] initGrid() {
+        Cell[][] toReturn = new Cell[this.sizeGrid][this.sizeGrid];
+        for (int i = 0; i < this.sizeGrid; i++) {
+            for (int j = 0; j < this.sizeGrid; j++) {
+                toReturn[i][j] = new Cell();
+            }
+        }
+        return toReturn;
     }
 
     private void generateRandomInitialState() {
@@ -37,14 +49,10 @@ public class Grid {
     }
 
     public void generateNextState() {
-        this.game = new Cell[sizeGrid][sizeGrid];
 
         for(i=0;i<sizeGrid;i++){
             for(j=0;j<sizeGrid;j++){
                 livingNeighbours = 0;
-
-                //On met les valeurs du cells dans game qu'on modifie et retourne a la fin
-                this.game[i][j] = this.cells[i][j];
 
                 //Verification de la case en haut a gauche
                 if(i==0 && j==0){
