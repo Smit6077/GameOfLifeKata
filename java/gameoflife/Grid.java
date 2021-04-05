@@ -5,6 +5,7 @@ import java.util.Random;
 public class Grid {
     // Nous avons eu l'aide de Florian LEFEVRE
     private Cell[][] cells;
+    private Cell[][] game;
     private int sizeGrid;
     private Random rd;
     private int livingNeighbours;
@@ -36,15 +37,21 @@ public class Grid {
     }
 
     public void generateNextState() {
+        this.game = new Cell[sizeGrid][sizeGrid];
 
         for(i=0;i<sizeGrid;i++){
             for(j=0;j<sizeGrid;j++){
                 livingNeighbours = 0;
+
+                //On met les valeurs du cells dans game qu'on modifie et retourne a la fin
+                this.game[i][j] = this.cells[i][j];
+
                 //Verification de la case en haut a gauche
                 if(i==0 && j==0){
                     if(verifVoisinDroit(i,j)){
                         livingNeighbours = livingNeighbours +1;
                     }
+
                     if(verifVoisinDiagDB(i,j)){
                         livingNeighbours = livingNeighbours +1;
                     }
@@ -71,6 +78,7 @@ public class Grid {
                     if(verifVoisinDiagGB(i,j)){
                         livingNeighbours = livingNeighbours +1;
                     }
+
                     voisinVivant(i, j, livingNeighbours);
                 }
 
@@ -240,7 +248,6 @@ public class Grid {
         }
     }
 
-
     public boolean verifVoisinDiagGH(int i, int j){
         if(this.cells[i-1][j-1].toString().compareToIgnoreCase("X") == 0){
             return true;
@@ -274,34 +281,35 @@ public class Grid {
     }
 
     public void voisinVivant(int i, int j, int livingNeighbours) {
-        if (cells[i][j].isAlive() == true) {
-            if (livingNeighbours == 2 || livingNeighbours == 3) {
-                cells[i][j].setIsAlive(true);
+        if(this.cells[i][j].isAlive() == true) {
+            if(livingNeighbours == 2 || livingNeighbours == 3) {
+                this.game[i][j].setIsAlive(true);
             } else {
-                cells[i][j].setIsAlive(false);
+                this.game[i][j].setIsAlive(false);
             }
         } else {
             if (livingNeighbours == 3) {
-                cells[i][j].setIsAlive(true);
+                this.game[i][j].setIsAlive(true);
             } else {
-                cells[i][j].setIsAlive(false);
+                this.game[i][j].setIsAlive(false);
             }
         }
     }
 
     public String toString() {
         String tab = "";
-        for(i=0;i<3;i++){
-            for(j=0;j<3;j++){
-                tab += this.cells[i][j];
-                if(j!=2){
+        for(i=0;i<sizeGrid;i++){
+            for(j=0;j<sizeGrid;j++){
+                tab += this.game[i][j];
+                if(j!=sizeGrid-1){
                     tab += " ";
                 }
             }
-            if(i!=2){
+            if(i!=sizeGrid-1){
                 tab += "\n";
             }
         }
         return tab;
     }
 }
+
